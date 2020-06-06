@@ -20,6 +20,8 @@ target_link_libraries(scene_retrieve
 #			${REQUIRED_LIBRARIES}
 #)
 
+add_definitions(${PCL_DEFINITIONS})
+
 add_executable(MakeSceneFromOpenSfMModel 
                         MakeSceneFromOpenSfMModel.cpp)
 
@@ -36,7 +38,46 @@ target_link_libraries(demo_stereo
 			${REQUIRED_LIBRARIES}
 			scene_retrieve)
 add_executable(demo_mono
-               demo_mono_main.cpp)
+               demo_mono_main.cpp ../include/cv_helper.h)
 target_link_libraries(demo_mono
 			${REQUIRED_LIBRARIES}
 			scene_retrieve)
+
+
+add_library(multi_scene_retriever multi_scene_retriever.cpp)
+target_link_libraries(multi_scene_retriever PRIVATE nlohmann_json::nlohmann_json
+                       ${REQUIRED_LIBRARIES}
+                       scene_retrieve
+			)
+
+
+add_executable(scene_retrieving_ros scene_retrieving_ros.cpp)
+target_link_libraries(scene_retrieving_ros PRIVATE nlohmann_json::nlohmann_json
+                       ${REQUIRED_LIBRARIES}
+                       scene_retrieve
+			)
+add_executable(ros_global_optimization ros_global_optimization.cpp)
+target_link_libraries(ros_global_optimization PRIVATE nlohmann_json::nlohmann_json
+                        ${REQUIRED_LIBRARIES}
+                        scene_retrieve
+)
+
+
+#add_executable(demo_mono_multi_scene_retriever
+#               demo_mono_multi_scene_retriever.cpp)
+#target_link_libraries(demo_mono_multi_scene_retriever
+#			${REQUIRED_LIBRARIES}
+#			scene_retrieve
+#                        multi_scene_retriever)
+
+#add_executable(demo_stereo_multi_scene_retriever
+#               demo_stereo_multi_scene_retriever.cpp)
+
+#target_link_libraries(demo_stereo_multi_scene_retriever
+#                        ${REQUIRED_LIBRARIES}
+#                        scene_retrieve
+#                        multi_scene_retriever)
+
+
+
+

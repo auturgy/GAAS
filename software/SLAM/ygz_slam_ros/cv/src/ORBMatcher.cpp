@@ -18,13 +18,13 @@ namespace ygz {
 
         for (int i = 0; i < 8; i++, pa++, pb++) {
             unsigned int v = *pa ^*pb;
-#ifdef __SSE2__
-            dist += _mm_popcnt_u64(v);
-#else
+//#ifdef __SSE2__
+//            dist += _mm_popcnt_u64(v);
+//#else
             v = v - ( ( v >> 1 ) & 0x55555555 );
             v = ( v & 0x33333333 ) + ( ( v >> 2 ) & 0x33333333 );
             dist += ( ( ( v + ( v >> 4 ) ) & 0xF0F0F0F ) * 0x1010101 ) >> 24;
-#endif
+//#endif
         }
         return dist;
     }
@@ -529,8 +529,11 @@ namespace ygz {
     }
 
     void ORBMatcher::ComputeStereoMatchesOptiFlow(shared_ptr<Frame> f, bool only2Dpoints) {
-        assert(!f->mFeaturesLeft.empty());
-        if (f->mPyramidLeft.empty() || f->mPyramidRight.empty())
+        //assert(!f->mFeaturesLeft.empty());
+       	if(f->mFeaturesLeft.empty())
+	    return;	
+
+	if (f->mPyramidLeft.empty() || f->mPyramidRight.empty())
             f->ComputeImagePyramid();
         // 对于那些未关联地图点的特征，或关联了未成熟地图点的特征，尝试通过双目估计其深度
         for (int i = 0; i < f->mFeaturesLeft.size(); i++) {

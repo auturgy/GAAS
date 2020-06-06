@@ -21,7 +21,7 @@
 
 import threading
 import time
-
+from path_optimization.path_pruning import PathPruning
 # for ros
 import rospy
 from geometry_msgs.msg import PoseStamped, Twist
@@ -100,18 +100,25 @@ class Navigator:
         self.local_pose = None
         t1 = threading.Thread(target=self.ros_thread)
         t1.start()
+        
         self.navigator_status_pub = rospy.Publisher('/gi/navigator_status', String, queue_size=10)
         self.path_plan_pub = rospy.Publisher('/gi/navi_path_plan',MarkerArray,queue_size=10)
         #t2 = thread.start_new_thread(self.Dstar_thread, ())
 
         #self.keep_navigating()
 
+        self.path = []
+        self.path_prune = PathPruning(obstacle_distance=8)
+        time.sleep(2)
 
 
     '''
     Navigating thread    
     '''
     def keep_navigating(self):
+
+        # for debug:
+        #self.algo = astar.astar.A_star((1,0,0))
 
         while self.mavros_state == "OFFBOARD" and not(rospy.is_shutdown()):
 
@@ -123,7 +130,7 @@ class Navigator:
 
             current_pos = self.get_current_pose() # TODO:fix this.
             if current_pos is None:
-                print ('current pose not valid!')
+                #print ('current pose not valid!')
                 continue
 
             while current_pos != end_pos and not self.navi_task_terminated() and not(rospy.is_shutdown()):  # Till task is finished:
@@ -136,29 +143,33 @@ class Navigator:
                 print ('From ', current_pos)
                 t1 = time.time()
                 self.driver.algo = astar.astar.A_star(end_pos)
-                path = self.algo.find_path(current_pos, self.driver.get_obstacles_around())
+                self.path = self.algo.find_path(current_pos, self.driver.get_obstacles_around())
                 t2 = time.time()
                 print('A* time cost:', (t2 - t1))
 
-                if not path:
+                if not self.path:
                     #TODO set status
                     print ('No path found!')
                     self.do_hover()  # TODO
                     time.sleep(0.05)  # TODO
-                else: # Path found. keep state machine and do task step by step.
+                else:
+                    # Path found. keep state machine and do task step by step.
 
-                    #publish path plan.
+                    self.collear_check_path = self.path_prune.remove_collinear_points(self.path)
+                    self.bresenham_check_path = self.path_prune.path_pruning_bresenham3d(self.collear_check_path, obstacle_map)
+
+                    #publish raw path plan.
                     m_arr = MarkerArray()
                     marr_index = 0
-                    for next_move in path:
+                    for next_move in self.path:
                         point = self.dg.discrete_to_continuous_target((next_move[0],next_move[1],next_move[2]))
                         mk = Marker()
                         mk.header.frame_id="map"
                         mk.action=mk.ADD
                         mk.id=marr_index
                         marr_index+=1
-                        mk.color.g=1.0
-                        mk.color.a=1.0
+                        mk.color.r = 1.0
+                        mk.color.a = 1.0
                         mk.type=mk.CUBE
                         mk.scale.x = 0.3
                         mk.scale.y = 0.3
@@ -169,13 +180,7 @@ class Navigator:
                         m_arr.markers.append(mk)
                     self.path_plan_pub.publish(m_arr)
 
-
-                    # eliminate extra points in the path
-                    path = self.remove_collinear_points(path)
-
-
-
-                    for next_move in path:
+                    for next_move in self.bresenham_check_path:
                         self.path_plan_pub.publish(m_arr)
                         if self.navi_task_terminated():
                             break
@@ -186,15 +191,14 @@ class Navigator:
                                         next_pos[2] - current_pos[2])
                         print ('next_move : ', next_move)
                         print ("relative_move : ", relative_pos)
+                        print ("next_pose: ", next_pos)
                         if not self.driver.algo.is_valid(next_pos, self.driver.get_obstacles_around()):
                             print ('Path not valid!')
                             break
                         self.current_pos = next_pos
 
-
                         #axis transform
                         relative_pos_new = (-relative_pos[0], -relative_pos[1], relative_pos[2])
-
 
                         #self.controller.mav_move(*relative_pos_new,abs_mode=False) # TODO:fix this.
                         print ('mav_move() input: relative pos=',next_pos)
@@ -205,11 +209,9 @@ class Navigator:
                         predict_move = (self.current_pos[0] + relative_pos[0], self.current_pos[1] + relative_pos[1],
                                         self.current_pos[2] + relative_pos[2])
                         print ("predict_move : ", predict_move)
-                        '''
-                        if not self.algo.is_valid(predict_move, self.driver.get_obstacles_around()):
-                            print ('cant go')
-                            break'''
-                        if not self.algo.path_is_valid(path,self.driver.get_obstacles_around()):
+
+
+                        if not self.algo.path_is_valid(self.bresenham_check_path, self.driver.get_obstacles_around()):
                             print ('Path conflict detected!')
                             break
 
@@ -291,12 +293,15 @@ class Navigator:
         #TODO
         pass
 
-
+    def do_hover(self):
+        #TODO
+        pass
 
 
     def set_target_postion(self, target_position):
         self.found_path = True
-        self.cur_target_position = target_position
+        self.cur_target_position = self.dg.continuous_to_discrete(target_position)
+        print("Current target position in grid: ", self.cur_target_position)
         #print("Set Current Position to: ", target_position[0], target_position[1], target_position[2])
 
     def get_latest_target(self):
@@ -433,7 +438,8 @@ class Navigator:
 if __name__ == '__main__':
     nav = Navigator()
 
-    nav.set_target_postion((20, 0, 2))
+    #FLU meters.
+    nav.set_target_postion((10, 0, 2.5))
     nav.keep_navigating()
 
 

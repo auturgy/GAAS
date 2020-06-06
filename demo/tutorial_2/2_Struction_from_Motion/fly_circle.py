@@ -14,7 +14,7 @@ class fly_circle:
 	self.height = height
     
     '''
-    Projected xy value on the x and y axis
+    Projected xy value to the x and y axis
     '''
     def projected_x_y(self, idx):
         triangle_rad = idx * self.rad_size
@@ -23,8 +23,9 @@ class fly_circle:
 
             x_rad = (math.pi / 2.0) - (math.pi - triangle_rad) / 2.0
             line_segment = math.sqrt(2*self.r**2 -2 * (self.r**2) * math.cos(triangle_rad))
-            x_idx = line_segment * math.cos(x_rad)
-            y_idx = line_segment * math.sin(x_rad)
+            x_idx = line_segment * math.sin(x_rad)
+            y_idx = -1 * line_segment * math.cos(x_rad)
+            
 
             return x_idx, y_idx, triangle_rad
 
@@ -32,8 +33,9 @@ class fly_circle:
 
             x_rad = (math.pi / 2.0) - (triangle_rad - math.pi) / 2.0
             line_segment = math.sqrt(2*self.r**2 -2 * (self.r**2) * math.cos(triangle_rad))
-            x_idx = -1 * line_segment * math.cos(x_rad)
-            y_idx = line_segment * math.sin(x_rad)
+            x_idx = line_segment * math.sin(x_rad)
+            y_idx = line_segment * math.cos(x_rad)
+            
 
             return x_idx, y_idx, triangle_rad
 
@@ -43,7 +45,7 @@ class fly_circle:
     def visualize_path(self):
         x_history = []
         y_history = []
-        for idx in range(self.n):
+        for idx in range(self.n + 1):
             x, y, triangle_rad = self.projected_x_y(idx)
             print(x, y, triangle_rad)
             x_history.append(x)
@@ -58,12 +60,12 @@ class fly_circle:
         for idx in range(self.n + 1):
             x, y, triangle_rad= self.projected_x_y(idx)
 
-            com.move(x, y, self.height, BODY_OFFSET_ENU=False)
-            time.sleep(2)
+            com.move( x, y, self.height, BODY_OFFSET_ENU=False)
+            time.sleep(4)
 
             # commander.turn() requires angle in Degree
             com.turn(triangle_rad * 180.0 /math.pi)
-            time.sleep(1)
+            time.sleep(2.5)
 
         print("Target Reached!")
 
@@ -71,16 +73,15 @@ class fly_circle:
 if __name__ == '__main__':
 
     com = Commander()
-    
+
     # 1st circle
-    circle = fly_circle(com, height=2, building_radius=10, n=20)
+    circle = fly_circle(com, height=3, building_radius=17, n=20)
+    #circle.visualize_path()
     circle.fly()
     
     # 2nd circle 
-    circle = fly_circle(com, height=5, building_radius=10, n=20)
-    circle.fly()
-    
-    #circle.visualize_path()
+    #circle = fly_circle(com, height=5, building_radius=17, n=20)
+    #circle.fly()
 
     # land!
     com.land()

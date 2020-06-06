@@ -1,4 +1,4 @@
-## Click below to watch the first step-by-step tutorial!
+## OFFBOARD Control and Gazebo Simulation
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=NrxKOEnidOo
 " target="_blank"><img src="http://img.youtube.com/vi/NrxKOEnidOo/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
@@ -52,11 +52,11 @@ you can use :
 to check the connection between PX4 and mavros.
 
 
+-----
 
+## OFFBOARD控制以及Gazebo仿真
 
-## 中文使用指南
-
-详细版点此查看：https://gaas.gitbook.io/guide/wu-ren-ji-zi-dong-jia-shi-xi-lie-offboard-kong-zhi-yi-ji-gazebo-fang-zhen
+详细版点此查看：https://gaas.gitbook.io/guide/
 
 此文件夹内包含一些基于 Python 以及 Gazebo 的脚本， 脚本可以用来控制基于 PX4 的无人机在 Offboard 模式下进行指点飞行。使用脚本需要你安装了 mavros， Gazebo7 并且编译了 PX4。
 
@@ -97,4 +97,17 @@ Gazebo 窗口会弹出， 并且你会看到无人机在世界坐标系中心，
     rostopic echo /mavros/state
 
 来判断 mavros 以及 PX4 的连接状态， 请确保显示结果为 "connected"。
+
+### 其他
+
+如果你遇到了：
+
+  The authenticity of host 'github.com (13.229.188.59)' can't be established.
+  
+这个问题，可以在此查看解决方案：
+
+https://ailearning.blog.csdn.net/article/details/88821014
+
+感谢达摩克利斯s
+  
  

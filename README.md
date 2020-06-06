@@ -1,132 +1,104 @@
+<a href="">
+    <img src="https://s2.ax1x.com/2019/01/31/k1TWUU.jpg" alt="gaas logo" title="gaas" align="right" height="100" />
+</a>
+
 # Generalized Autonomy Aviation System
 
+:star: Star us on GitHub — it helps!      
 
-![lisence](https://img.shields.io/github/license/generalized-intelligence/GAAS.svg?style=for-the-badge)
-![issues](https://img.shields.io/github/issues-raw/generalized-intelligence/GAAS.svg?style=for-the-badge)
+[Support us on Patreon](https://www.patreon.com/gaas) Or [Post on Our Forum](https://www.gaas.dev/forum)
 
-
-
-![star](https://img.shields.io/github/stars/generalized-intelligence/GAAS.svg?style=social)
-
-![twitter](https://img.shields.io/twitter/follow/GAAS_ooo.svg?style=social)
-
-![future](https://img.shields.io/badge/Let's%20go%20back%20to-the%20Future!-blue.svg)
-
-You Can Chat and Find Support at: [![Join the chat at https://gitter.im/GAAStalk/community](https://badges.gitter.im/GAAStalk/community.svg)](https://gitter.im/GAAStalk/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-Or watch the step-by-step [tutorial](https://github.com/generalized-intelligence/GAAS/blob/master/demo/tutorial_1/README.MD)
-
-Or follow the lastest news about the project at our [Medium Publication](https://medium.com/generalized-intelligence)
-
-Or join our Wechat group at:
-
-<img width="250" height="300" src="https://s2.ax1x.com/2019/03/22/A3OcIU.jpg"/>
-
-# GAAS
-
-<img src="https://s2.ax1x.com/2019/01/31/k1TWUU.jpg" align="right" width="300px" alt="GA">
-
-> Generalized Autonomy Aviation System (GAAS, pronounciate as "gas") is an open source project dedicated to autonomy flight and operating control system for futuristic aerial vehicles.
-
-> Imagine commuting with "flying car", having food and packages delivered by drones to your door. To contribute to the described future, we would like to get the two most fundamental issues out of the way: the safety of aerial vehicles, and the demand for skilled pilots. 
-
-> Our long-term vision is to implement GAAS in passenger carrying aerial vehicles (could be "flying car"). The first step of this vision is to make Unmanned Aerial Vehicles truly "unmanned", so drones can be better utilized. We also just want to provide an easy-to-use infrastructure for programmers and engineers to program and build drone products.
-
-> The current version of GAAS includes Simultaneous Localization and Mapping (SLAM), obstacle avoidance, navigation and flight control, supporting manned and unmanned multi-rotor drones and helicopters. Next step, we will also be supporting VTOL and eVTOL.
-
-> 泛化自动驾驶飞行器系统 Generalized Autonomy Aviation System（以下简称 GAAS）是一个面向未来飞行器设计的开源驾驶以及运行管理系统。
-
-> 想象一个每天用飞行汽车出门，无人机送餐和快递的未来。我们希望为这样的未来解决一些基础性的问题：满足对安全性的高要求并消除飞行员以及飞手的需求。
-
-> 我们第一步的目标是让无人机做到真正无人，从而能够为人类进行更多的工作。并且可以让更多程序员和工程师更简单的为无人机编写程序和制作产品。长期目标是将 GAAS 应用在载人飞行器上（也许是飞行汽车）。
-
->当前版本的 GAAS 包含 SLAM、避障路径规划、飞行控制模块；用于支持无人和有人的旋翼和直升机驾驶。下一步计划支持 VTOL 和 eVTOL。
-
-![UAV demo](https://s2.ax1x.com/2019/02/25/kIZ3vj.jpg)
-
-An example of the hardware
+  [![Join Facebook Group at https://www.facebook.com/groups/300340454189266/?ref=bookmarks](https://img.shields.io/badge/Group-Facebook-blue.svg)](https://www.facebook.com/groups/300340454189266/?ref=bookmarks) [![twitter](https://img.shields.io/twitter/follow/GAAS_dev.svg?style=social)](https://twitter.com/GAAS_dev)   [![Follow Medium at https://medium.com/generalized-intelligence](https://img.shields.io/badge/Medium-Blogs-black.svg)](https://medium.com/generalized-intelligence)
+  
+  
+[<img src = "https://s2.ax1x.com/2019/11/07/Mkwj81.png">](https://github.com/generalized-intelligence/GAAS/releases/tag/v0.7)
+---
 
 
-## Setup
+[<img width="280" src="https://s2.ax1x.com/2019/06/20/Vvmsld.png"/>](https://bit.ly/2Ky8VbV)
+<img src="https://s2.ax1x.com/2019/09/20/nXrXjK.png">
 
-NOTE: Tested in ubuntu 16.04 and ros-kinetic
+[Progress Report 2019.08.01-2019.08.28](https://forum.gaas.dev/t/progress-update-2019-08-01-2019-08-28/30)
 
-### 1. Install ROS-Kinetic
+- [What is GAAS?](#what-is-gaas)
+  * [Tutorial for GAAS](#tutorial-for-gaas)
+  * [Installation](#installation)
+  * [Overview](#overview)
+  * [Contribute](#contribute)
+  * [Meta](#meta)
+  * [Special Thanks](#special-thanks)
+  * [中文 readme.md](https://github.com/generalized-intelligence/GAAS/blob/master/readme_zh.md)
 
-We recommend installing ros-kinetic-desktop-full from the following address:
-    http://wiki.ros.org/kinetic/Installation/Ubuntu
+# What is GAAS?
 
-### 2. Install Octomap-Server and mavros
+<img src="https://s2.ax1x.com/2019/02/25/kIZ3vj.jpg" align="right" width="300px" alt="hardware">
 
-    cd ~/catkin_ws/src
-    git clone https://github.com/OctoMap/octomap_mapping.git
-    git clone https://github.com/mavlink/mavros.git
-    cd ..
-    catkin build
-    source ~/catkin_ws/devel/setup.bash
+> GAAS (Generalized Autonomy Aviation System) is an open source autonomous aviation software platform, designed for fully autonomous drones and flying cars. GAAS was built to provide a common infrastructure for computer-vision based drone intelligence. In the long term, GAAS aims to accelerate the coming of autonomous VTOLs. Being a BSD-licensed product, GAAS makes it easy for enterprises, researches, and drone enthusiasts to modify the code to suit specific use cases. 
 
-### 3. Gazebo
+> Our long-term vision is to implement GAAS in autonomous passenger carrying VTOLs (or "flying cars"). The first step of this vision is to make Unmanned Aerial Vehicles truly "unmanned", and thus make drones ubiquitous. We currently support manned and unmanned multi-rotor drones and helicopters. Our next step is to support VTOLs and eVTOLs.
 
-If you followed step 1 and has installed ros-kinetic-desktop-full, you should already have gazebo7 installed. Now install the corresponding ros plugin:
+## Tutorial for GAAS
+See the [repo](https://github.com/generalized-intelligence/GAAS/tree/master/demo) and the [documentation](https://gaas.gitbook.io/guide/)
+
+
+## Installation
+Please see [Setup.md](https://github.com/generalized-intelligence/GAAS/blob/master/Setup.md)
+
+We also have a mirror form developers to install GAAS, [click here to download](https://gaas.gitbook.io/guide/handy-tools/v0.7-release-mirror-x86).
+
+Trust me you won't want to install every dependencies by yourself:)
+
+
+## Overview
+Currently the project provides the following ten funcitons, some of which may need to be further optimized: 
+
+NOTE: This is a beta version of the software. Please re-ensure the stability of each feature before implementing on real drones.
+
+<p align="center">
+<img src="https://github.com/generalized-intelligence/GAAS/blob/master/demo/gaaspole.gif"/>
     
-    sudo apt install ros-kinetic-gazebo-*
-    
-If you would like to use another version of Gazebo, please see http://gazebosim.org/ for different versions of the plugin:
-    
-    sudo apt install ros-kinetic-<your gazebo version>-*
+    VISION BASED POLE AVOIDANCE BY GAAS
+</p>
 
-### 4. PCL
+1. Details about automatic taking off and landing can be found in: ```software/px4_mavros_scripts```;
+2. Navigation in GPS denied environment can be found in: ```software/SLAM/ygz_slam_ros```, currently we are using stereo optical flow;
+3. Obstacle avoidance based on stereo vision can be found in: ```software/Obstacle_Map```;
+4. Path planning can be found in ```software/Navigator```;
+5. Scene recoginition, given an image, recover its position in terms of given environment, details can be found in algorithms/scene_retrieving;
+6. 3D modeling, details can be found in ```algorithms/sfm```;
+7. [Object tracking](https://youtu.be/C6902HKUVR8), details can be found in ```algorithms/object_trace_tracking```;
+8. Object detection, details can be found in ```algorithms/image_detection```;
+9. Instance segmentation, details can be found in ```algorithms/image_detection```;
+10. A list of control API based on MAVROS, and a series of tutorials can be found in ```GAAS/demo```;
+11. A list of hardware that we use is at ```GAAS/hardware```.
 
-Install at the following address:
-    
-    http://www.pointclouds.org/documentation/tutorials/compiling_pcl_posix.php
+<p align="center">
+<img src="https://s2.ax1x.com/2019/11/07/MkB8Te.png"/>
+</p>
 
-### 5. YGZ-slam
+## Contribute
+### I just want to build an autonomous drone
+You have come to the right place!
 
-Detailed information can be found in the folder: https://github.com/gaoxiang12/ygz-stereo-inertial
+If this is your first time building an autonomous aviation system, check out our [first Tutorial](https://github.com/generalized-intelligence/GAAS/tree/master/demo/tutorial_1). You will get a basic understanding of what MavROS, PX4 and Gazebo are, which are fundamental for the success of your autonomous drone.
 
-### 6. PX4
+If you are stuck with configuration, you may:
+1. Google the error messages and see if someone else has solved a similar problem.
+2. Visit the [Issues Page](https://github.com/generalized-intelligence/GAAS/issues) to see if others have provided solutions for a similar problem.
+3. If neither Step 1 or Step 2 were able to help you, submit an issue to let the community know that you need help. 
 
-NOTE: Tested on px4 v1.8.0
-    
-    mkdir ~/px4 && cd ~/px4
-    git clone https://github.com/PX4/Firmware.git
-    cd Firmware
-    git checkout v1.8.0
+If you are an advanced user, feel free to help others to get started, contribute by solving issues, or share with us about your project on our [Gitter group chat](https://gitter.im/GAAStalk/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge). 
 
-## Sample Use Case
+### I want to contribute
 
-Obstacle avoidance, 3D tap-to-fly and navigation (independent of GPS):
+We are so grateful for your interest in contributing!
 
-    step<1> If used indoor or require accurate localization, add SLAM in ROS launch file, otherwise, skip this step.
+To start contributing, you need to become familiar with PX4 and MavROS, as well as the workflow of [GitHub](https://github.com/MarcDiethelm/contributing/blob/master/README.md). 
 
-    step<2> For outdoor usage, configure location points in GPS. For indoor usage, configure location points in local East North Up (ENU)(relative to the 3D model).
+A good place to start is to look at the [open issues](https://github.com/generalized-intelligence/GAAS/issues). From there, you may choose one that interests you to tackle, or open an issue of your own to communicate with other developers. 
 
-    step<3> Add collision avoidance module to ROS launch file.
-
-    step<4> Turn on the vehicle, wait for PX4 to finish the pre-flight check.
-
-    step<5> Launch Mavros.
-
-    step<6> Send the vehicle out for the mission.
-
-Upcoming features:
-
-	1. Tracking and Following with Obstacle Avoidance
-
-	2. Computer Vision enabled Accurate Landing
-
-	3. Auto-Search and 3D Modelling
-
-	4. Multi-Drone Collaboration
-
-## Development Setup
-
-For modules that require further development, we recommend to:
-
-Install from source
-
-Replace corresponding ROS packages
+PS: One of the best ways to contribute is to help others to kick off their autonomous drone journey. Pay attention to the “Configuration” label in issues page to help others get started.
+For more details, please follow [CONTRIBUTING.md](https://github.com/generalized-intelligence/GAAS/blob/master/CONTRIBUTING.md)
 
 ## Meta
 
@@ -134,116 +106,12 @@ Project initialized by Generalized Intelligence
 
 Distributed under the BSD 3-Clause license. See ``LICENSE`` for more information.
 
-[GAAS GitHub](https://github.com/generalized-intelligence/GAAS)
-
 ## Special Thanks
 
 It is worth mentioning that we did not build everything from scratch, but on top of the solid foundations built by pioneers in the field. We would like to thank communities such as [PX4](https://px4.io) and [Dronecode](https://www.dronecode.org) for constantly pushing the industry foward. What they have built are what allowed us to build GAAS!
 
-## Contribute
+Also, thanks for the support from https://thone.io
 
-Please follow CONTRIBUTING.md
-
-Il Vole
-
----
-
-## Setup
-
-NOTE: 目前只在 Ubuntu 16.04 以及 ros-kinetic 环境下测试通过。
-
-### 1.安装 ROS-Kinetic
-
-建议安装 ros-kinetic-desktop-full; 可按照此地址进行安装：
-	http://wiki.ros.org/kinetic/Installation/Ubuntu.
-
-### 2.安装 Octomap-Server 以及 mavros
-
-	cd ~/catkin_ws/src
-	git clone https://github.com/OctoMap/octomap_mapping.git
-	git clone https://github.com/mavlink/mavros.git
-	cd ..
-	catkin build
-	source ~/catkin_ws/devel/setup.bash
-
-### 3. Gazebo
-
-如果您在第一步安装了 ros-kinetic-desktop-full, 您已经具有了 gazebo7；, 接下来请安装对应 ros plugin:
-
-	sudo apt install ros-kinetic-gazebo-*
-
-如果您想使用其他版本的 gazebo, 请参考：http://gazebosim.org/, 并安装对应版本的 ros plugin:
-
-	sudo apt install ros-kinetic-<your gazebo version>-*
-
-
-### 4. PCL
-
-请参考此链接安装：
-	http://www.pointclouds.org/documentation/tutorials/compiling_pcl_posix.php
-
-
-### 5. YGZ-slam
-
-请参考此链接安装:
-	https://github.com/gaoxiang12/ygz-stereo-inertial
-
-
-### 6. PX4
-NOTE:  仅在 px4 v1.8.0 上进行过测试。
-    
-    mkdir ~/px4 && cd ~/px4
-    git clone https://github.com/PX4/Firmware.git
-    cd Firmware
-    git checkout v1.8.0
-
-## 使用案例
-
-1.带避障，不依赖 GPS 的路径规划指点飞行。
-
-	step<1> 如果是室内环境使用或需要高精度飞行，ROS launch file 加入 SLAM；否则跳过此步骤。
-
-	step<2> 对于室外环境，配置 GPS 轨迹(使用地图)。对于室内部分，在 3D 模型中配置轨迹。
-
-	step<3> ROS launch file 加入避障部分。
-
-	step<4> 启动飞行器，等待 PX4 自检通过。
-
-	step<5> 启动 Mavros。
-
-	step<6> 开始执行任务。
-
-即将推出：
-
-	1. 带避障的视觉跟踪任务
-
-	2. 视觉精准降落
-
-	3. 区域自动探索建模
-
-	4. 多机协同执行任务
-
-
-## 开发配置
-
-Setup 部分中所有想要更改的组件源码安装。
-
-在 ROS 的对应接口进行替换即可。
-
-
-## Meta
-
-泛化智能 Generalized Intelligence 出品。
-
-本项目受 BSD 3-Clause 协议保护。点击``LICENSE`` 了解更多
-[GAAS GitHub](https://github.com/generalized-intelligence/GAAS)
-
-## Special Thanks
-
-我们的项目并不是从零开始，而是站在了过去十余年无人机行业先驱的肩膀上。非常感谢 PX4 与 Dronecode 等组织对无人机行业发展的推动，让我们今天得以有机会制作 GAAS!
-
-## Contribute
-
-请参阅 CONTRIBUTING.md
+We are also very grateful for our contributors. You may be able to find them at [AUTHORS.md](https://github.com/generalized-intelligence/GAAS/blob/master/AUTHORS.md).
 
 Il Vole
